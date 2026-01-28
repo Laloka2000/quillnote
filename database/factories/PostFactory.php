@@ -23,7 +23,7 @@ class PostFactory extends Factory
             'image' => fake()->imageUrl(),
             'title' => $title,
             'slug' => \Illuminate\Support\Str::slug($title),
-            'content' => fake()->paragraphs(5),
+            'content' => fake()->paragraph(5),
             'category_id' => Category::inRandomOrder(1)->first()->id,
             'user_id' => 1,
             'published_at' => fake()->optional()->dateTime(),
