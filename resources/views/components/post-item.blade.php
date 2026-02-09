@@ -1,11 +1,11 @@
-<div class="flex bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 mb-8">
+<div class="flex bg-white border border-gray-200 rounded-lg shadow-sm shadow-sm mb-8">
     <div class="p-5 flex-1">
         <a href="#">
-            <h5 class="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading text-gray-900 dark:text-white">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
                 {{ $post->title }}
             </h5>
         </a>
-        <div class="m-3 font-normal text-gray-700 dark:text-gray-400 ">
+        <div class="mb-3 font-normal text-gray-700">
             {{ Str::words($post->content, 20) }}
         </div>
         <a href="#"
@@ -18,7 +18,7 @@
             </svg>
         </a>
     </div>
-    <a href="#" class="w-48 h-full object-cover rounded-r-lg hidden sm:block">
+    <a href="#" class="w-48 h-full object-cover rounded-r-lg">
         <img class="rounded-r-lg" src="https://flowbite.com/docs/images/blog/image-1.jpg" alt="" />
     </a>
 </div>
