@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com'
         ]);
-
+        
         $categories = ['Technology', 'Health', 'Travel', 'Education', 'Lifestyle', 'Food'];
 
         foreach($categories as $category){
@@ -27,5 +27,6 @@ class DatabaseSeeder extends Seeder
         }
 
         Post::factory(100)->create();
+        
     }
 }
