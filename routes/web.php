@@ -15,6 +15,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('post.store');
     Route::get('/@{user:username}/{post:slug}', [PostController::class, 'show'])
         ->name('post.show');
+    Route::get('/category/{category}', [PostController::class, 'category'])
+        ->name('post.byCategory');
 });
 
 

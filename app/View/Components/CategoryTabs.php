@@ -12,19 +12,17 @@ class CategoryTabs extends Component
     /**
      * Create a new component instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        public ?Category $active = null,
+    ) {}
 
     /**
      * Get the view / contents that represent the component.
      */
     public function render(): View|Closure|string
     {
-        $categories = Category::get();
         return view('components.category-tabs', [
-            'categories'=> $categories
+            'categories' => Category::orderBy('name')->get(),
         ]);
     }
 }

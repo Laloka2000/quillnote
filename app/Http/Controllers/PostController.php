@@ -27,6 +27,19 @@ class PostController extends Controller
         ]);
     }
 
+    public function category(Category $category)
+    {
+        $posts = $category->posts()
+            ->with(['user', 'category'])
+            ->latest()
+            ->paginate(5);
+
+        return view('post.index', [
+            'posts' => $posts,
+            'category' => $category,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
