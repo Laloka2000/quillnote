@@ -22,9 +22,10 @@ class ProfileUpdateRequest extends FormRequest
                 'string',
                 'lowercase',
                 'max:255',
+                'alpha_dash',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
-            'image' => ['nullable','image','mimes:jpeg,png,jpg,gif,svg','max:2048'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
             'bio' => ['nullable', 'string', 'max:255'],
             'email' => [
                 'required',
