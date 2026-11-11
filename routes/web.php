@@ -13,6 +13,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/post/create', [PostController::class, 'store'])
         ->name('post.store');
+    Route::get('/@{user:username}/{post:slug}', [PostController::class, 'show'])
+        ->name('post.show');
 });
 
 

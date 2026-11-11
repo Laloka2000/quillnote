@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostCreateRequest;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -50,17 +51,22 @@ class PostController extends Controller
         $data['slug'] = $this->uniqueSlug($data['title']);
         $data['image'] = $data['image']->store('posts', 'public');
 
-        Post::create($data);
+        $post = Post::create($data);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('post.show', [
+            'user' => Auth::user(),
+            'post' => $post,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function show(User $user, Post $post)
     {
-        //
+        return view('post.show', [
+            'post' => $post,
+        ]);
     }
 
     /**

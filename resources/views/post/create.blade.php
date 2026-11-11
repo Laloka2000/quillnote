@@ -32,7 +32,7 @@
                                 </option>
                             @endforeach
                         </select>
-                        <x-input-error :messages="$errors->get('category-id')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                     </div>
 
                     <!-- Content -->
