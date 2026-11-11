@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/post/create', [PostController::class, 'store'])
         ->name('post.store');
+    Route::get('/@{user:username}', [PublicProfileController::class, 'show'])
+        ->name('profile.show');
     Route::get('/@{user:username}/{post:slug}', [PostController::class, 'show'])
         ->name('post.show');
     Route::get('/category/{category}', [PostController::class, 'category'])

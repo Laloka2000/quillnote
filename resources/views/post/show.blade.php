@@ -7,9 +7,13 @@
                 </h1>
 
                 <div class="flex items-center gap-4 mb-8">
-                    <x-user-avatar :user="$post->user" />
+                    <a href="{{ route('profile.show', $post->user) }}">
+                        <x-user-avatar :user="$post->user" />
+                    </a>
                     <div>
-                        <div class="font-medium text-gray-900">{{ $post->user->name }}</div>
+                        <a href="{{ route('profile.show', $post->user) }}" class="font-medium text-gray-900 hover:underline">
+                            {{ $post->user->name }}
+                        </a>
                         <div class="text-sm text-gray-500">
                             {{ $post->readTime() }} min read
                             ·

@@ -5,7 +5,9 @@
 <article class="flex bg-white border border-gray-200 rounded-lg shadow-sm mb-8 overflow-hidden">
     <div class="p-5 flex-1">
         <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
-            <span class="font-medium text-gray-900">{{ $post->user->name }}</span>
+            <a href="{{ route('profile.show', $post->user) }}" class="font-medium text-gray-900 hover:underline">
+                {{ $post->user->name }}
+            </a>
             <span>.</span>
             <span>{{ $post->category->name }}</span>
             <span>.</span>

@@ -17,22 +17,16 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with(['user', 'category'])
-            ->latest()
-            ->paginate(5);
-
+        $posts = Post::forListing()->paginate(5);
 
         return view('post.index', [
-            'posts' => $posts
+            'posts' => $posts,
         ]);
     }
 
     public function category(Category $category)
     {
-        $posts = $category->posts()
-            ->with(['user', 'category'])
-            ->latest()
-            ->paginate(5);
+        $posts = $category->posts()->forListing()->paginate(5);
 
         return view('post.index', [
             'posts' => $posts,

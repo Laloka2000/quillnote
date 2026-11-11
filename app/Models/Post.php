@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 
 class Post extends Model
 {
@@ -35,5 +37,11 @@ class Post extends Model
         $words = preg_split('/\s+/u', trim(strip_tags($this->content)), -1, PREG_SPLIT_NO_EMPTY);
 
         return max(1, (int) ceil(count($words) / $wordPerMinute));
+    }
+
+    #[Scope]
+    protected function forListing(Builder $query): void
+    {
+        $query->with(['user', 'category'])->latest();
     }
 }
