@@ -1,25 +1,36 @@
-<div class="flex bg-white border border-gray-200 rounded-lg shadow-sm shadow-sm mb-8">
+<article class="flex bg-white border border-gray-200 rounded-lg shadom-sm mb-8 overflow-hidden">
     <div class="p-5 flex-1">
-        <a href="#">
-            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                {{ $post->title }}
-            </h5>
-        </a>
-        <div class="mb-3 font-normal text-gray-700">
-            {{ Str::words($post->content, 20) }}
+        <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
+            <span class="font-medium text-gray-900">{{ $post->user->name }}</span>
+            <span>.</span>
+            <span>{{ $post->category->name }}</span>
+            <span>.</span>
+            <time datetime="{{ $post->created_at->toDateString() }}">
+                {{ $post->created_at->format('Y. m. d.') }}
+            </time>
         </div>
-        <x-primary-button class="ms-2">
-            <a href="#">
-                Read more
-                <svg class="w-4 h-4 ms-1.5 rtl:rotate-180 -me-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 12H5m14 0-4 4m4-4-4-4" />
-                </svg>
-            </a>
-        </x-primary-button>
+
+        <a href="#">
+            <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 hover:underline">
+                {{ $post->title }}
+            </h2>
+        </a>
+
+        <p class="mb-4 text-gray-700">
+            {{ Str::words($post->content, 20) }}
+        </p>
+
+        <a href="#"
+            class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-800 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 transition">
+            Read more
+            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 12H5m14 0-4 4m4-4-4-4" />
+            </svg>
+        </a>
     </div>
-    <a href="#" class="w-48 h-full max-h-64 object-cover rounded-r-lg">
-        <img class="rounded-r-lg" src=" {{ Storage::url($post->image) }}" alt="" />
+
+    <a href="#" class="hidden sm:block shrink-0 w-48">
+        <img class="w-full h-full object-cover" src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}">
     </a>
-</div>
+</article>
