@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
 
 class Post extends Model
@@ -42,6 +43,22 @@ class Post extends Model
     #[Scope]
     protected function forListing(Builder $query): void
     {
-        $query->with(['user', 'category'])->latest();
+        $query->with(['user', 'category'])
+            ->withCount('likes')
+            ->latest();
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(Like::class);
+    }
+
+    public function isLikedBy(?User $user): bool
+    {
+        if (! $user) {
+            return false;
+        }
+
+        return $this->likes()->where('user_id', $user->id)->exists();
     }
 }

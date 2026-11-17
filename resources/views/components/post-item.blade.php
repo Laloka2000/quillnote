@@ -8,14 +8,16 @@
             <a href="{{ route('profile.show', $post->user) }}" class="font-medium text-gray-900 hover:underline">
                 {{ $post->user->name }}
             </a>
-            <span>.</span>
+            <span>|</span>
             <span>{{ $post->category->name }}</span>
-            <span>.</span>
+            <span>|</span>
             <span>{{ $post->readTime() }} min read</span>
-            <span>.</span>
+            <span>|</span>
             <time datetime="{{ $post->created_at->toDateString() }}">
                 {{ $post->created_at->format('Y. m. d.') }}
             </time>
+            <span>|</span>
+            <span>{{ $post->likes_count }} likes</span>
         </div>
 
         <a href="{{ $url }}">

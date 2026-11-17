@@ -69,10 +69,13 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user, Post $post)
+    public function show(Request $request, User $user, Post $post)
     {
+        $post->loadCount('likes');
+
         return view('post.show', [
             'post' => $post,
+            'isLiked' => $post->isLikedBy($request->user()),
         ]);
     }
 

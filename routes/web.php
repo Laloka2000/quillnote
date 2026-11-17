@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\LikeController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -21,6 +22,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('follow.store');
     Route::delete('/@{user:username}/follow', [FollowController::class, 'destroy'])
         ->name('follow.destroy');
+    Route::post('/post/{post}/like', [LikeController::class, 'store'])
+        ->name('like.store');
+    Route::delete('/post/{post}/like', [LikeController::class, 'destroy'])
+        ->name('like.destroy');
     Route::get('/@{user:username}/{post:slug}', [PostController::class, 'show'])
         ->name('post.show');
     Route::get('/category/{category}', [PostController::class, 'category'])

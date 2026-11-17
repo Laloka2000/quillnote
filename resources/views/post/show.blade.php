@@ -29,10 +29,12 @@
 
                 <div class="text-lg leading-relaxed text-gray-800 whitespace-pre-line">{{ $post->content }}</div>
 
-                <div class="mt-10 pt-6 border-t border-gray-200">
+                <div class="mt-10 pt-6 border-t border-gray-200 flex items-center justify-between">
                     <span class="px-3 py-1 rounded-full bg-gray-100 text-sm text-gray-700">
                         {{ $post->category->name }}
                     </span>
+
+                    <x-like-button :post="$post" :liked="$isLiked" />
                 </div>
             </article>
         </div>
