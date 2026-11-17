@@ -7,13 +7,17 @@ use App\Models\User;
 
 class PublicProfileController extends Controller
 {
-    public function show(User $user)
+    public function show(Request $request, User $user)
     {
+
+        $user->loadCount(['followers', 'following']);
+
         $posts = $user->posts()->forListing()->paginate(5);
 
         return view('profile.show', [
             'user' => $user,
             'posts' => $posts,
+            'isFollowing' => $user->isFollowedBy($request->user()),
         ]);
     }
 }

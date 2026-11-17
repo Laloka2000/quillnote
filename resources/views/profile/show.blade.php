@@ -25,17 +25,35 @@
 
                         <h2 class="mt-4 text-lg font-semibold text-gray-900">{{ $user->name }}</h2>
                         <p class="text-sm text-gray-500">{{ '@' . $user->username }}</p>
-                        <p class="mt-1 text-sm text-gray-500">{{ $posts->total() }} posts</p>
+                        <p class="mt-1 text-sm text-gray-500">
+                            {{ $posts->total() }} posts
+                            . {{ $user->followers_count }} followers
+                            . {{ $user->following_count }} following
+                        </p>
 
                         @if ($user->bio)
                             <p class="mt-4 text-gray-700 whitespace-pre-line">{{ $user->bio }}</p>
                         @endif
 
-                        @if (auth()->user()?->is($user))
-                            <a href="{{ route('profile.edit') }}"
-                                class="mt-6 inline-block text-sm font-medium text-blue-600 hover:underline">
+                        @if (auth()->user()->is($user))
+                            <a href="{{ route('profile.edit') }}" class="mt-6 inline-block text-sm font-medium text-blue-600 hover:underline">
                                 Edit profile
                             </a>
+                        @elseif ($isFollowing)
+                            <form method="POST" action="{{ route('follow.destroy', $user) }}" class="mt-6">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="px-5 py-2 rounded-full border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                    Following
+                                </button>
+                            </form>
+                        @else
+                            <form method="POST" action="{{ route('follow.store', $user) }}" class="mt-6">
+                                @csrf
+                                <button type="submit" class="px-5 py-2 rounded-full bg-gray-900 text-sm font-medium text-white hover:bg-gray-700">
+                                    Follow
+                                </button>
+                            </form>
                         @endif
                     </div>
                 </aside>

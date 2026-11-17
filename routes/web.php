@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FollowController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -16,6 +17,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('post.store');
     Route::get('/@{user:username}', [PublicProfileController::class, 'show'])
         ->name('profile.show');
+    Route::post('/@{user:username}/follow', [FollowController::class, 'store'])
+        ->name('follow.store');
+    Route::delete('/@{user:username}/follow', [FollowController::class, 'destroy'])
+        ->name('follow.destroy');
     Route::get('/@{user:username}/{post:slug}', [PostController::class, 'show'])
         ->name('post.show');
     Route::get('/category/{category}', [PostController::class, 'category'])
