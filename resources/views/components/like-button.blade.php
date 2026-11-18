@@ -4,8 +4,15 @@
         liked: @js($liked),
         count: @js($post->likes_count),
         loading: false,
+        guest: @js(auth()->guest()),
 
         async toggle() {
+
+            if (this.guest) {
+                window.location.href = @js(route('login'));
+                return;
+            }
+
             if (this.loading) return;
             this.loading = true;
 

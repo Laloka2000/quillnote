@@ -35,7 +35,7 @@
                             <p class="mt-4 text-gray-700 whitespace-pre-line">{{ $user->bio }}</p>
                         @endif
 
-                        @if (auth()->user()->is($user))
+                        @if (auth()->user()?->is($user))
                             <a href="{{ route('profile.edit') }}" class="mt-6 inline-block text-sm font-medium text-blue-600 hover:underline">
                                 Edit profile
                             </a>
