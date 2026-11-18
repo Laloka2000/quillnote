@@ -16,6 +16,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/post/create', [PostController::class, 'store'])
         ->name('post.store');
+    Route::get('/post/{post:slug}/edit', [PostController::class, 'edit'])
+        ->name('post.edit');
+    Route::put('/post/{post:slug}', [PostController::class, 'update'])
+        ->name('post.update');
+    Route::delete('/post/{post:slug}', [PostController::class, 'destroy'])
+        ->name('post.destroy');
     Route::get('/@{user:username}', [PublicProfileController::class, 'show'])
         ->name('profile.show');
     Route::post('/@{user:username}/follow', [FollowController::class, 'store'])

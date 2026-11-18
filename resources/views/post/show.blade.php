@@ -24,6 +24,23 @@
                     </div>
                 </div>
 
+                @can('update', $post)
+                    <div class="flex items-center gap-4 -mt-4 mb-8 text-sm">
+                        <a href="{{ route('post.edit', $post) }}" class="font-medium text-blue-600 hover:underline">
+                            Edit
+                        </a>
+
+                        <form method="POST" action="{{ route('post.destroy', $post) }}"
+                            onsubmit="return confirm('Are you sure you want to delete this post?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="font-medium text-red-600 hover:underline">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                @endcan
+
                 <img src="{{ Storage::url($post->image) }}" alt="{{ $post->title }}"
                     class="w-full rounded-lg mb-8">
 

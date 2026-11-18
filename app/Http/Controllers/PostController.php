@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostCreateRequest;
+use App\Http\Requests\PostUpdateRequest;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -84,23 +87,54 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        Gate::authorize('update', $post);
+
+        return view('post.edit', [
+            'post' => $post,
+            'categories' => Category::orderBy('name')->get(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $oldImage = $post->image;
+            $data['image'] = $request->file('image')->store('posts', 'public');
+        } else {
+            unset($data['image']);
+        }
+
+        $post->update($data);
+
+        if (isset($oldImage)) {
+            Storage::disk('public')->delete($oldImage);
+        }
+
+        return redirect()->route('post.show', [
+            'user' => $request->user(),
+            'post' => $post,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Post $post)
+    public function destroy(Request $request, Post $post)
     {
-        //
+        Gate::authorize('delete', $post);
+
+        $image = $post->image;
+
+        $post->delete();
+
+        Storage::disk('public')->delete($image);
+
+        return redirect()->route('profile.show', $request->user());
     }
 
     private function uniqueSlug(string $title): string
