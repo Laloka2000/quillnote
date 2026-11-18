@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::forListing()->paginate(5);
+        $posts = Post::forListing()->published()->paginate(5);
 
         return view('post.index', [
             'posts' => $posts,
@@ -29,7 +29,7 @@ class PostController extends Controller
 
     public function category(Category $category)
     {
-        $posts = $category->posts()->forListing()->paginate(5);
+        $posts = $category->posts()->forListing()->published()->paginate(5);
 
         return view('post.index', [
             'posts' => $posts,
@@ -74,6 +74,8 @@ class PostController extends Controller
      */
     public function show(Request $request, User $user, Post $post)
     {
+        Gate::authorize('view', $post);
+
         $post->loadCount('likes');
 
         return view('post.show', [

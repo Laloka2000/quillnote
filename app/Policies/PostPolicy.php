@@ -8,6 +8,14 @@ use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
+    public function view(?User $user, Post $post): Response
+    {
+        if ($post->isPublished() || $post->user()->is($user)) {
+            return Response::allow();
+        }
+
+        return Response::denyAsNotFound();
+    }
     /**
      * Determine whether the user can update the model.
      */

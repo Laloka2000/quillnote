@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 
 class Post extends Model
 {
@@ -22,6 +23,13 @@ class Post extends Model
         'user_id',
         'published_at',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'published_at' => 'datetime',
+        ];
+    }
 
     public function user(): BelongsTo
     {
@@ -48,6 +56,13 @@ class Post extends Model
             ->latest();
     }
 
+    #[Scope]
+    protected function published(Builder $query): void
+    {
+        $query->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
+    }
+
     public function likes(): HasMany
     {
         return $this->hasMany(Like::class);
@@ -60,5 +75,15 @@ class Post extends Model
         }
 
         return $this->likes()->where('user_id', $user->id)->exists();
+    }
+
+    public function isPublished(): bool
+    {
+        return $this->published_at !== null && $this->published_at->isPast();
+    }
+
+    public function displayDate(): Carbon
+    {
+        return $this->published_at ?? $this->created_at;
     }
 }

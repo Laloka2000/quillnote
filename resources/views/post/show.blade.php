@@ -2,6 +2,16 @@
     <div class="py-8">
         <div class="max-w-3xl mx-auto sm:px-6">
             <article class="bg-white p-6 sm:p-10 shadow-sm sm:rounded-lg">
+                @unless ($post->isPublished())
+                    <div class="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800">
+                        @if ($post->published_at)
+                            This post is scheduled for {{ $post->published_at->format('Y. m. d. H:i') }}. Only you can see it.
+                        @else
+                            This is a draft. Only you can see it.
+                        @endif
+                    </div>
+                @endunless
+
                 <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-6">
                     {{ $post->title }}
                 </h1>
@@ -17,8 +27,8 @@
                         <div class="text-sm text-gray-500">
                             {{ $post->readTime() }} min read
                             ·
-                            <time datetime="{{ $post->created_at->toDateString() }}">
-                                {{ $post->created_at->format('Y. m. d.') }}
+                            <time datetime="{{ $post->displayDate()->toDateString() }}">
+                                {{ $post->displayDate()->format('Y. m. d.') }}
                             </time>
                         </div>
                     </div>

@@ -8,7 +8,7 @@
                     
                     @include('post.partials.form', ['post' => null])
 
-                    <x-primary-button class="mt-4">Publish</x-primary-button>
+                    <x-primary-button class="mt-4">Save</x-primary-button>
                 </form>
             </div>
         </div>

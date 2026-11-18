@@ -4,6 +4,11 @@
 
 <article class="flex bg-white border border-gray-200 rounded-lg shadow-sm mb-8 overflow-hidden">
     <div class="p-5 flex-1">
+        @unless ($post->isPublished())
+            <span class="px-2 py-0.5 rounded bg-yellow-100 text-yellow-800 text-xs font-medium">
+                {{ $post->published_at ? 'Scheduled' : 'Draft' }}
+            </span>
+        @endunless
         <div class="flex items-center gap-2 mb-2 text-sm text-gray-500">
             <a href="{{ route('profile.show', $post->user) }}" class="font-medium text-gray-900 hover:underline">
                 {{ $post->user->name }}
@@ -13,8 +18,8 @@
             <span>|</span>
             <span>{{ $post->readTime() }} min read</span>
             <span>|</span>
-            <time datetime="{{ $post->created_at->toDateString() }}">
-                {{ $post->created_at->format('Y. m. d.') }}
+            <time datetime="{{ $post->displayDate()->toDateString() }}">
+                {{ $post->displayDate()->format('Y. m. d.')}}
             </time>
             <span>|</span>
             <span>{{ $post->likes_count }} likes</span>

@@ -12,7 +12,10 @@ class PublicProfileController extends Controller
 
         $user->loadCount(['followers', 'following']);
 
-        $posts = $user->posts()->forListing()->paginate(5);
+        $posts = $user->posts()
+            ->forListing()
+            ->when(! $request->user()?->is($user), fn($query) => $query->published())
+            ->paginate(5);
 
         return view('profile.show', [
             'user' => $user,

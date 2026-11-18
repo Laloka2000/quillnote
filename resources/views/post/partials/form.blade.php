@@ -1,3 +1,9 @@
+@php 
+    $publishedAt = $post
+        ? $post->published_at?->format('Y-m-d\TH:i')
+        : now()->format('Y-m-d\TH:i');
+@endphp
+
 <!-- Image -->
 <div>
     <x-input-label for="image" :value="__('Image')"/>
@@ -33,6 +39,14 @@
         @endforeach
     </select>
     <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
+</div>
+
+<!-- Publish date -->
+<div class="mt-4">
+    <x-input-label for="published_at" :value="__('Publish date')" />
+    <x-text-input  id="published_at" class="block mt-1" type="datetime-local" name="published_at" :value="old('published_at', $publishedAt)" />
+    <p class="mt-1 text-sm text-gray-500">Leave empty to save draft. Pick a future date to schedule it.</p>
+    <x-input-error :messages="$errors->get('published_at')" class="mt-2" />
 </div>
 
 <!-- Content -->

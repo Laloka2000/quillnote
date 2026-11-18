@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LikeController extends Controller
 {
     public function store(Request $request, Post $post): JsonResponse
     {
+        Gate::authorize('view', $post);
+
         $post->likes()->firstOrCreate([
             'user_id' => $request->user()->id,
         ]);
