@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [PostController::class, 'index'])
         ->name('dashboard');
-
+    Route::get('/search', [PostController::class, 'search'])
+        ->name('post.search');
     Route::get('/post/create', [PostController::class, 'create'])
         ->name('post.create');
 

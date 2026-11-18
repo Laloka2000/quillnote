@@ -53,7 +53,7 @@ class Post extends Model
     {
         $query->with(['user', 'category'])
             ->withCount('likes')
-            ->latest();
+            ->latest('published_at');
     }
 
     #[Scope]
@@ -61,6 +61,15 @@ class Post extends Model
     {
         $query->whereNotNull('published_at')
             ->where('published_at', '<=', now());
+    }
+
+    #[Scope]
+    protected function search(Builder $query, string $term): void
+    {
+        $query->where(function (Builder $q) use ($term) {
+            $q->whereLike('title', "%{$term}%")
+                ->orWhereLike('content', "%{$term}%");
+        });
     }
 
     public function likes(): HasMany

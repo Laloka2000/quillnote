@@ -37,6 +37,26 @@ class PostController extends Controller
         ]);
     }
 
+    public function search(Request $request)
+    {
+        $term = $request->string('q')->squish()->limit(100, '')->toString();
+
+        if ($term === '') {
+            return redirect()->route('dashboard');
+        }
+
+        $posts = Post::forListing()
+            ->published()
+            ->search($term)
+            ->paginate(5)
+            ->withQueryString();
+
+        return view('post.search', [
+            'posts' => $posts,
+            'term' => $term,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

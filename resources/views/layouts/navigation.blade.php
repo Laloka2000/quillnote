@@ -10,6 +10,15 @@
                     </a>
                 </div>
 
+
+                <form method="GET" action="{{ route('post.search') }}" role="search"
+                    class="hidden sm:flex sm:items-center sm:ms-6">
+                    <label for="nav-search" class="sr-only">Search posts</label>
+                    <input id="nav-search" type="search" name="q" value="{{ request('q') }}"
+                        placeholder="Search..." maxlength="100"
+                        class="w-64 rounded-full border-gray-300 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </form>
+
             </div>
 
             <div class="flex">
@@ -80,6 +89,13 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+
+        <form method="GET" action="{{ route('post.search') }}" role="search" class="px-4 pt-4 pb-2">
+            <label for="mobile-search" class="sr-only">Search posts</label>
+            <input id="mobile-search" type="search" name="q" value="{{ request('q') }}"
+                placeholder="Search..." maxlength="100"
+                class="w-full rounded-full border-gray-300 text-sm focus:border-indigo-500 focus:ring-indigo-500">
+        </form>
 
 
         <!-- Responsive Settings Options -->
