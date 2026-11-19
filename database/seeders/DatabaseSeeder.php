@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
         $demo = User::factory()->create([
             'name' => 'Demo User',
             'username' => 'demo',
-            'email' => 'demo@example.com',
+            'email' => config('demo.email'),
+            'password' => config('demo.password'),
             'bio' => 'This is the demo account. Feel free to look around, write a post or like something.',
         ]);
 

@@ -19,8 +19,8 @@ Route::get('/@{user:username}', [PublicProfileController::class, 'show'])
 Route::get('/@{user:username}/{post:slug}', [PostController::class, 'show'])
     ->name('post.show');
 
-// Write operations: login and confirmed email required
-Route::middleware(['auth', 'verified'])->group(function () {
+// Write operations: login required
+Route::middleware(['auth'])->group(function () {
     Route::get('/post/create', [PostController::class, 'create'])
         ->name('post.create');
     Route::post('/post/create', [PostController::class, 'store'])
@@ -39,13 +39,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('like.store');
     Route::delete('/post/{post}/like', [LikeController::class, 'destroy'])
         ->name('like.destroy');
-});
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [ProfileController::class, 'edit'])
+        ->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update')
+        ->can('manage-account');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy')
+        ->can('manage-account');
 });
 
 require __DIR__ . '/auth.php';

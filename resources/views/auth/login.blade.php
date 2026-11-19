@@ -2,6 +2,26 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
+    <!-- Demo account -->
+    <div class="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4 text-sm text-blue-900">
+        <p class="font-medium">Just looking around?</p>
+        <p class="mt-1"> 
+            Use the demo account:
+            <span class="font-mono">{{ config('demo.email') }}</span>
+            <span class="font-mono">{{ config('demo.password') }}</span>
+        </p>
+
+        <form method="POST" action="{{ route('login') }}" class="mt-3">
+            @csrf
+            <input type="hidden" name="email" value="{{ config('demo.email') }}">
+            <input type="hidden" name="password" value="{{ config('demo.password') }}">
+
+            <x-primary-button>
+                {{ __('Log in as demo') }}
+            </x-primary-button>
+        </form>
+    </div>
+
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
