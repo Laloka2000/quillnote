@@ -26,9 +26,9 @@
                         <h2 class="mt-4 text-lg font-semibold text-gray-900">{{ $user->name }}</h2>
                         <p class="text-sm text-gray-500">{{ '@' . $user->username }}</p>
                         <p class="mt-1 text-sm text-gray-500">
-                            {{ $posts->total() }} posts
-                            . {{ $user->followers_count }} followers
-                            . {{ $user->following_count }} following
+                            {{ $posts->total() }} {{ Str::plural('post', $posts->total()) }}
+                            · {{ $user->followers_count }} {{ Str::plural('follower', $user->followers_count) }}
+                            · {{ $user->following_count }} following
                         </p>
 
                         @if ($user->bio)

@@ -26,7 +26,7 @@ class PostFactory extends Factory
 
         return [
             'title' => $title,
-            'slug' => Str::slug($title),
+            'slug' => fn(array $attributes) => Str::slug($attributes['title']),
             'content' => $this->fakeContent(),
             'image' => fn() => $this->storeRandomImage(),
             'category_id' => Category::factory(),

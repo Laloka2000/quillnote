@@ -22,7 +22,7 @@
                 {{ $post->displayDate()->format('Y. m. d.')}}
             </time>
             <span>|</span>
-            <span>{{ $post->likes_count }} likes</span>
+            <span>{{ $post->likes_count }} {{ Str::plural('like', $post->likes_count) }}</span>
         </div>
 
         <a href="{{ $url }}">
