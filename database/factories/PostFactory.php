@@ -3,8 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use RuntimeException;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Post>
@@ -18,15 +22,48 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
-        $title = fake()->sentence();
+        $title = rtrim(fake()->unique()->sentence(rand(4, 8)), '.');
+
         return [
-            'image' => fake()->imageUrl(),
             'title' => $title,
-            'slug' => \Illuminate\Support\Str::slug($title),
-            'content' => fake()->paragraph(5),
-            'category_id' => Category::inRandomOrder(1)->first()->id,
-            'user_id' => 1,
-            'published_at' => fake()->optional()->dateTime(),
+            'slug' => Str::slug($title),
+            'content' => $this->fakeContent(),
+            'image' => fn() => $this->storeRandomImage(),
+            'category_id' => Category::factory(),
+            'user_id' => User::factory(),
+            'published_at' => fake()->dateTimeBetween('-6 months', 'now'),
         ];
+    }
+
+    public function draft(): static
+    {
+        return $this->state(fn() => [
+            'published_at' => null,
+        ]);
+    }
+
+    public function scheduled(): static
+    {
+        return $this->state(fn() => [
+            'published_at' => fake()->dateTimeBetween('+1 day', '+1 month'),
+        ]);
+    }
+
+    private function fakeContent(): string
+    {
+        return collect(range(1, rand(6, 12)))
+            ->map(fn() => fake()->realTextBetween(300, 700))
+            ->implode("\n\n");
+    }
+
+    private function storeRandomImage(): string
+    {
+        $images = glob(database_path('seeders/images/*.jpg'));
+
+        if (empty($images)) {
+            throw new RuntimeException('No seed images found in database/seeders/images.');
+        }
+
+        return Storage::disk('public')->putFile('posts', new File(fake()->randomElement($images)));
     }
 }
