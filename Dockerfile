@@ -32,7 +32,8 @@ FROM base
 
 COPY --from=assets /app/public/build ./public/build
 
-RUN sed -i 's/\r$//' docker/start.sh
+RUN sed -i 's/\r$//' docker/start.sh \
+    && setcap -r /usr/local/bin/frankenphp
 
 ENV APP_ENV=production \
     APP_DEBUG=false \
