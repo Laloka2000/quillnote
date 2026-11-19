@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Medium Clone') }}</title>
+        <title>{{ config('app.name') }}</title>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -16,6 +16,17 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
+
+            @if (config('demo.banner'))
+                <div class="bg-gray-900 px-4 py-2 text-center text-sm text-white">
+                    Demo instance: all data resets automatically after inactivity.
+                    @guest
+                        <a href="{{ route('login') }}" class="font-semibold underline">Log in with the demo account</a>
+                        to try everything.
+                    @endguest   
+                </div>
+            @endif
+
             @include('layouts.navigation')
 
             <!-- Page Heading -->

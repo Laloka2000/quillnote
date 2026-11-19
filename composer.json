@@ -1,11 +1,11 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "laloka2000/quillnote",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "A Medium-inspired blogging platform built with Laravel 12, Blade, Tailwind CSS and Alpine.js.",
     "keywords": [
         "laravel",
-        "framework"
+        "blog"
     ],
     "license": "MIT",
     "require": {
@@ -15,7 +15,7 @@
         "laravel/tinker": "^2.10.1"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.23",
+        "fakerphp/faker": "^1.24",
         "laravel/boost": "^1.8",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
